@@ -1,0 +1,29 @@
+# Build outputs
+/build/
+/out/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Generated Protocol Buffers
+*.pb.cc
+*.pb.h
+
+# IDE and editor files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Runtime files
+*.log
+*.pid
+core
+core.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
