@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "benchmark_kind": "in_process_module_benchmark",
+  "warning": "Not an end-to-end epoll server or network latency benchmark",
+  "timestamp_utc": "2026-09-02T08:44:20Z",
+  "environment": {
+    "os": "Windows",
+    "compiler": "GCC 8.1.0",
+    "hardware_concurrency": 16,
+    "peak_rss_mb": 7.277
+  },
+  "configuration": {
+    "players": 500,
+    "moves_per_player": 40,
+    "repetitions": 3,
+    "payload_bytes": 32,
+    "distribution": "hotspot",
+    "seed": 20260902
+  },
+  "protocol": {
+    "frames": 60000,
+    "wire_bytes": 2400000,
+    "encode_wall_ms": 3.812,
+    "encode_cpu_ms": 3.000,
+    "decode_wall_ms": 0.904,
+    "decode_cpu_ms": 1.000,
+    "encode_frames_per_second": 15740594.994,
+    "decode_frames_per_second": 66364340.228
+  },
+  "aoi": {
+    "operations": 60000,
+    "wall_ms": 3757.741,
+    "cpu_ms": 3759.000,
+    "operations_per_second": 15967.041,
+    "p50_us": 58.700,
+    "p95_us": 101.600,
+    "p99_us": 138.800,
+    "average_aoi_recipients": 199.981,
+    "full_broadcast_recipients": 499.000,
+    "recipient_reduction_percent": 59.924
+  }
+}

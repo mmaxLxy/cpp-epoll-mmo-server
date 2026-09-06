@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_test_only
+          MYSQL_DATABASE: mmo_test
+          MYSQL_USER: mmo_test
+          MYSQL_PASSWORD: mmo_test_only
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot_test_only"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake \
+            g++ \
+            libhiredis-dev \
+            libmysqlclient-dev \
+            libprotobuf-dev \
+            protobuf-compiler
+
+      - name: Configure
+        run: >-
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_CXX_FLAGS=-Werror
+          -DBUILD_TESTING=ON
+          -DMMO_BUILD_SERVER=ON
+          -DMMO_ENABLE_DATABASES=ON
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Test
+        env:
+          MMO_MYSQL_HOST: 127.0.0.1
+          MMO_MYSQL_PORT: 3306
+          MMO_MYSQL_USER: mmo_test
+          MMO_MYSQL_PASSWORD: mmo_test_only
+          MMO_MYSQL_DATABASE: mmo_test
+          MMO_REDIS_HOST: 127.0.0.1
+          MMO_REDIS_PORT: 6379
+        run: ctest --test-dir build --output-on-failure

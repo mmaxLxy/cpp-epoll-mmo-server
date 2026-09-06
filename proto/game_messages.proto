@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package mmo.proto;
+
+message Position {
+  double x = 1;
+  double y = 2;
+}
+
+message PlayerView {
+  uint64 player_id = 1;
+  string nickname = 2;
+  Position position = 3;
+}
+
+message LoginRequest {
+  string account = 1;
+  string session_token = 2;
+}
+
+message LoginResponse {
+  bool success = 1;
+  string error = 2;
+  PlayerView self = 3;
+  repeated PlayerView nearby_players = 4;
+  string session_token = 5;
+}
+
+message ChatRequest {
+  string text = 1;
+}
+
+message MoveRequest {
+  Position position = 1;
+}
+
+message Heartbeat {}
+
+message PlayerEnter {
+  PlayerView player = 1;
+}
+
+message PlayerLeave {
+  uint64 player_id = 1;
+}
+
+message PlayerMove {
+  uint64 player_id = 1;
+  Position position = 2;
+}
+
+message ChatBroadcast {
+  uint64 player_id = 1;
+  string nickname = 2;
+  string text = 3;
+}
+
+message NearbyPlayers {
+  repeated PlayerView players = 1;
+}

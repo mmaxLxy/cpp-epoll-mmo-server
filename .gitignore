@@ -26,4 +26,6 @@ core.*
 # OS files
 .DS_Store
 Thumbs.db
-
+# Local build outputs
+.build/
+cmake-build-*/
